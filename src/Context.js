@@ -1,3 +1,4 @@
+import { type } from "@testing-library/user-event/dist/type";
 import React from "react";
 
 const Context = React.createContext();
@@ -25,8 +26,10 @@ function ContextProvider({children}) {
     function addToFavorites (e) {
 
         var movieToAdd = movies.filter( movie  => {
-            console.log(typeof(movie.imdbID), typeof(e.target.id))
             if (e.target.id === "") {
+                if(e.target.parentElement.id === "") {
+                    return movie.imdbID === e.target.parentElement.parentElement.id
+                } 
                 return movie.imdbID === e.target.parentElement.id
             }else{
                 return movie.imdbID === e.target.id
@@ -84,6 +87,9 @@ function ContextProvider({children}) {
             let newArr = [...prevState]
             const movieToAdd = favMovies.filter( movie  => {
                 if (e.target.id === "") {
+                    if(e.target.parentElement.id === "") {
+                        return movie.imdbID !== e.target.parentElement.parentElement.id
+                    } 
                     return movie.imdbID !== e.target.parentElement.id
                 }else{
                     return movie.imdbID !== e.target.id
@@ -96,8 +102,10 @@ function ContextProvider({children}) {
 
         setMovies( prevStates => {
             var movieToRemove = movies.filter( movie  => {
-
                 if (e.target.id === "") {
+                    if(e.target.parentElement.id === "") {
+                        return movie.imdbID === e.target.parentElement.parentElement.id
+                    } 
                     return movie.imdbID === e.target.parentElement.id
                 }else{
                     return movie.imdbID === e.target.id
